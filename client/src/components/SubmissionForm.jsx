@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import ImagePreview from './ImagePreview';
 
+import ImagePreview from './ImagePreview';
 
 class SubmissionForm extends React.Component {
   constructor(props) {
@@ -12,6 +12,7 @@ class SubmissionForm extends React.Component {
     };
     this.handleSubmission = this.handleSubmission.bind(this);
     this.fileChangedHandler = this.fileChangedHandler.bind(this);
+    this.getButtonText = this.getButtonText.bind(this);
   }
 
   fileChangedHandler = (event) => {
@@ -31,13 +32,24 @@ class SubmissionForm extends React.Component {
         }
       })
     };
+
+    getButtonText() {
+      if (!this.state.selectedFile) {
+        return 'Choose an image';
+      }
+      if (this.state.image) {
+        return 'Choose another image';
+      }
+      return 'Replace image';
+    }
     
     render() {
       return (
         <div>
-            <input type="file" onChange={this.fileChangedHandler} name="picture" accept="image/*" />
-            <input type="submit" onClick={this.handleSubmission} />
-            <ImagePreview image={this.state.image} />
+          <ImagePreview image={this.state.image} />
+          <input type="file" name="picture" id="picture" className="inputfile" accept="image/*" onChange={this.fileChangedHandler} />
+          <label htmlFor="picture" className="button">{this.getButtonText()}</label>
+          <button onClick={this.handleSubmission} className={`button ${this.state.selectedFile ? '' : 'disabled'}`}>Submit</button>
         </div>
       );
     }

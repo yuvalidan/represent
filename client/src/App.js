@@ -19,7 +19,6 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Represent</h1>
-          <h3>How's your event looking?</h3>
         </header>
         <div>
           <h5>Upload your panel photo/flyer</h5>
