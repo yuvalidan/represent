@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import SubmissionForm from './SubmissionForm.jsx';
-import DisplayResults from './DisplayResults.jsx';
+import SubmissionForm from './components/SubmissionForm';
+import DisplayResults from './components/DisplayResults';
 import './App.css';
 
 class App extends Component {
@@ -23,8 +23,8 @@ class App extends Component {
         </header>
         <div>
           <h5>Upload your panel photo/flyer</h5>
-          <SubmissionForm updateResults={this.updateResults} />
           <DisplayResults results={this.state.results} />
+          <SubmissionForm updateResults={this.updateResults} />
         </div>
       </div>
     );

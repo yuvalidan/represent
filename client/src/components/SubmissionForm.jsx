@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import ImagePreview from './ImagePreview';
+
 
 class SubmissionForm extends React.Component {
   constructor(props) {
@@ -15,7 +17,6 @@ class SubmissionForm extends React.Component {
   fileChangedHandler = (event) => {
     this.setState({
       selectedFile: event.target.files[0],
-      image: URL.createObjectURL(event.target.files[0])
     })
   }
 
@@ -25,6 +26,7 @@ class SubmissionForm extends React.Component {
       axios.post('http://localhost:5000/upload', formData)
       .then(res => {
         if (res && res.data) {
+          this.setState({image: URL.createObjectURL(this.state.selectedFile)});
           this.props.updateResults(res.data)
         }
       })
@@ -35,7 +37,7 @@ class SubmissionForm extends React.Component {
         <div>
             <input type="file" onChange={this.fileChangedHandler} name="picture" accept="image/*" />
             <input type="submit" onClick={this.handleSubmission} />
-            <img src={this.state.image}/>
+            <ImagePreview image={this.state.image} />
         </div>
       );
     }
