@@ -675,7 +675,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.post('/upload', upload.single('myFile'), (req, res) => {
+app.post('/api/upload', upload.single('myFile'), (req, res) => {
     const file = req.file;
     var img = new Buffer(file.buffer, 'base64');
     const encoded = img.toString('base64');
@@ -690,10 +690,6 @@ app.post('/upload', upload.single('myFile'), (req, res) => {
     // })
     // .catch(e => res.json({error: e}))
 })
-
-app.get('/api/hello', (req, res) => {
-  res.send({ express: 'Hello From Express' });
-});
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, 'client/build')));

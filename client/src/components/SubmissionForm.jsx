@@ -3,7 +3,7 @@ import axios from 'axios';
 import ImagePreview from './ImagePreview';
 
 var axiosInstance = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: '/api',
 });
 
 class SubmissionForm extends React.Component {
