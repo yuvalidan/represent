@@ -1,7 +1,9 @@
 body {
   background-color: #F9F4F2;
   font-family: 'Raleway', sans-serif;
+  color: #54494B;
 }
+
 .App {
   text-align: center;
 }
@@ -63,7 +65,6 @@ body {
   text-decoration: none !important;
   text-transform: none;
   text-transform: capitalize;
-  color: #54494B;
   border: 0 none;
   border-radius: 4px;
   line-height: 1.3;
@@ -74,6 +75,7 @@ body {
   font-family: 'Raleway', sans-serif;
   text-transform: uppercase;
   font-weight: bold;
+  color: #54494B;
 }
 
 .button:hover {
@@ -87,4 +89,25 @@ body {
 
 .disabled:hover {
   background-color: lightgray;
+  cursor: default;
+}
+
+.results-container {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 3em;
+  font-size: 20px;
+}
+
+.percent {
+  font-size: 35px;
+  color: #5D7F71;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.margin2em {
+  margin: 2em;
 }

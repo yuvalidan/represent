@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import SubmissionForm from './components/SubmissionForm';
 import DisplayResults from './components/DisplayResults';
+import Explainer from './components/Explainer';
 import './App.css';
 
 class App extends Component {
@@ -21,7 +22,7 @@ class App extends Component {
           <h1 className="App-title">Represent</h1>
         </header>
         <div>
-          <h5>Upload your panel photo/flyer</h5>
+          <Explainer show={!this.state.results.numberOfPeople} />
           <DisplayResults results={this.state.results} />
           <SubmissionForm updateResults={this.updateResults} />
         </div>

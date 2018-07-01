@@ -9,7 +9,7 @@ const negativeMessages = [
 ];
 const positiveMessages = [
     'Looks good!',
-    'Tumblr would approve',
+    'Tumblr would approve.',
     'Nice!',
     'Super woke.',
     'We\'re proud of you.',
@@ -21,9 +21,8 @@ function getRandom(arr) {
     return arr[Math.floor(Math.random()*arr.length)];
 }
 
-function percentageAndText(per) {
-    const text = per > 60 ? getRandom(negativeMessages) : getRandom(positiveMessages);
-    return `${per}%. ${text}`;
+function getText(per) {
+    return per > 60 ? getRandom(negativeMessages) : getRandom(positiveMessages);
 }
 
 const SubmissionForm = ({results}) => {
@@ -32,10 +31,12 @@ const SubmissionForm = ({results}) => {
     }
     return (
         <div>
-            <h4>Total people identified: {results.numberOfPeople}</h4>
-            <h4>Men: {percentageAndText(results.percentMen)}</h4>
-            <h4>White: {percentageAndText(results.percentWhite)}</h4>
-            <h4>Young: {percentageAndText(results.percentYoung)}</h4>
+            <h3>Total people identified: {results.numberOfPeople}</h3>
+            <div className="results-container">
+                <div><div className="percent">{results.percentMen}% men</div>{getText(results.percentMen)}</div>
+                <div><div className="percent">{results.percentWhite}% white</div>{getText(results.percentWhite)}</div>
+                <div><div className="percent">{results.percentYoung}% young</div>{getText(results.percentYoung)}</div>
+            </div>
         </div>
     );
 };
