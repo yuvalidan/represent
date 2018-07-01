@@ -666,15 +666,6 @@ const clarifai = new Clarifai.App({
 const app = express();
 const port = process.env.PORT || 5000;
 
-
-app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_URL);
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    next();
-});
-
 app.post('/api/upload', upload.single('myFile'), (req, res) => {
     const file = req.file;
     var img = new Buffer(file.buffer, 'base64');
