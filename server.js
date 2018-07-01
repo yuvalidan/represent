@@ -5,7 +5,8 @@ require('dotenv').config();
 const express = require('express');
 const Clarifai = require('clarifai');
 const path = require('path');
-var bodyParser = require('body-parser')
+const bodyParser = require('body-parser')
+const timeout = require('connect-timeout');
 const multer  = require('multer')
 const upload = multer();
 const app = express();
@@ -24,6 +25,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
+
 app.post('/api/upload', upload.single('myFile'), (req, res) => {
   const file = req.file;
   var img = new Buffer(file.buffer, 'base64');
@@ -40,7 +42,7 @@ app.post('/api/upload', upload.single('myFile'), (req, res) => {
   .catch(e => res.json({error: e}))
 })
 
-app.post('/api/url', (req, res) => {
+app.post('/api/url', timeout('10s'), (req, res) => {
   const { url } = req.body;
   if (!url) {
     return res.status(400).json({ error: 'Url required!' });
@@ -63,5 +65,15 @@ if (process.env.NODE_ENV === 'production') {
 		res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 	});
 }
+
+function errorHandler(err, req, res, next){
+	if (!req.timedout) {
+		next();
+	}
+	else if (req.url === '/api/url') {
+		return res.status(504).json({ error: 'The url that you submitted seems to be wrong.' });
+	}
+}
+app.use(errorHandler);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
