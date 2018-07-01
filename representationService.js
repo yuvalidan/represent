@@ -23,7 +23,8 @@ function calculateRepresentations(data) {
     const percentYoung = calculateMatch(data, isYoung);
     const percentMen = calculateMatch(data, isMan);
     const percentWhite = calculateMatch(data, isWhite);
-    return { percentYoung, percentMen, percentWhite };
+    const numberOfPeople = data.length;
+    return { percentYoung, percentMen, percentWhite, numberOfPeople };
 }
 
 module.exports = {

@@ -13,6 +13,7 @@ const port = process.env.PORT || 5000;
 
 const representationService = require('./representationService');
 const DEMOGRAPHICS_MODEL_ID = 'c0c0ac362b03416da06ab3fa36fb58e3';
+const NO_FACES_ERROR = 'The image you provided does not seem to have faces in it';
 
 const clarifai = new Clarifai.App({
  apiKey: process.env.CLARIFAI_KEY
@@ -31,12 +32,10 @@ app.post('/api/upload', upload.single('myFile'), (req, res) => {
   .then((response) => {
 		const data = response.outputs[0].data.regions;
 		if (!data) {
-			return res.status(400).json({ error: 'The image you provided does not seem to have faces in it' });
+			return res.status(400).json({ error: NO_FACES_ERROR });
 		}
-		const { percentYoung, percentMen, percentWhite } = representationService.calculateRepresentations(data);
-		const numberOfPeople = data.length;
 
-		return res.send({ numberOfPeople, percentYoung, percentMen, percentWhite });
+		return res.send(representationService.calculateRepresentations(data));
   })
   .catch(e => res.json({error: e}))
 })
@@ -50,12 +49,10 @@ app.post('/api/url', (req, res) => {
   .then((response) => {
       const data = response.outputs[0].data.regions;
       if (!data) {
-        return res.status(400).json({ error: 'The image you provided does not seem to have faces in it' });
+        return res.status(400).json({ error: NO_FACES_ERROR });
       }
-      const { percentYoung, percentMen, percentWhite } = representationService.calculateRepresentations(data);
-      const numberOfPeople = data.length;
 
-      return res.send({ numberOfPeople, percentYoung, percentMen, percentWhite });
+      return res.send(representationService.calculateRepresentations(data));
   })
   .catch(e => res.json({error: e}));
 })
