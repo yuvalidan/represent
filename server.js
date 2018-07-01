@@ -5,6 +5,7 @@ require('dotenv').config();
 const express = require('express');
 const Clarifai = require('clarifai');
 const path = require('path');
+var bodyParser = require('body-parser')
 const multer  = require('multer')
 const upload = multer();
 
@@ -666,6 +667,11 @@ const clarifai = new Clarifai.App({
 const app = express();
 const port = process.env.PORT || 5000;
 
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
+
 app.post('/api/upload', upload.single('myFile'), (req, res) => {
     const file = req.file;
     var img = new Buffer(file.buffer, 'base64');
@@ -680,6 +686,22 @@ app.post('/api/upload', upload.single('myFile'), (req, res) => {
         return res.send({ numberOfPeople, percentYoung, percentMen, percentWhite });
     // })
     // .catch(e => res.json({error: e}))
+})
+
+app.post('/api/url', (req, res) => {
+  // const file = req.file;
+  // var img = new Buffer(file.buffer, 'base64');
+  // const encoded = img.toString('base64');
+  // clarifai.models.predict(DEMOGRAPHICS_MODEL_ID, encoded)
+  // .then((response) => {
+      const response = fake_response;
+      const data = response.outputs[0].data.regions;
+      const { percentYoung, percentMen, percentWhite } = representationService.calculateRepresentations(data);
+      const numberOfPeople = data.length;
+
+      return res.send({ numberOfPeople, percentYoung, percentMen, percentWhite });
+  // })
+  // .catch(e => res.json({error: e}))
 })
 
 if (process.env.NODE_ENV === 'production') {
