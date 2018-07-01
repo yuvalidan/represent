@@ -7,15 +7,16 @@ const URL_REGEX = new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[
 var axiosInstance = axios.create({
   baseURL: '/api',
 });
+const EMPTY_STATE = {
+  selectedFile: null,
+  imageUrl: '',
+  image: null
+}
 
 class SubmissionForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selectedFile: null,
-      imageUrl: '',
-      image: null
-    };
+    this.state = Object.assign({}, EMPTY_STATE);
     this.handleSubmission = this.handleSubmission.bind(this);
     this.fileChangedHandler = this.fileChangedHandler.bind(this);
     this.getButtonText = this.getButtonText.bind(this);
@@ -31,7 +32,8 @@ class SubmissionForm extends React.Component {
 
     handleSubmission() {
       let url = '/url';
-      let data = { url: this.state.imageUrl };
+      const imageUrl = this.state.imageUrl;
+      let data = { url: imageUrl };
       if (this.state.selectedFile) {
         const formData = new FormData()
         formData.append('myFile', this.state.selectedFile, this.state.selectedFile.name)
@@ -43,21 +45,25 @@ class SubmissionForm extends React.Component {
           if (res && res.data) {
             this.setState({
               selectedFile: null,
-              image: this.state.selectedFile ? URL.createObjectURL(this.state.selectedFile) : this.state.imageUrl,
+              imageUrl: '',
+              image: this.state.selectedFile ? URL.createObjectURL(this.state.selectedFile) : imageUrl,
             });
             this.props.updateResults(res.data)
           } else {
+            this.setState(EMPTY_STATE);
             this.props.showError(res.error);
+            this.props.updateResults({});
           }
         })
         .catch(e => {
-          this.setState({ selectedFile: null, imageUrl: '', image: '' });
+          this.setState(EMPTY_STATE);
+          this.props.updateResults({});
           this.props.showError(e.response.data.error);
         })
     };
 
     getButtonText() {
-      if (this.state.image) {
+      if (this.state.image && !this.state.selectedFile) {
         return 'Choose another image';
       }
       if (!this.state.selectedFile) {
