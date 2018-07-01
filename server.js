@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const express = require('express');
 const Clarifai = require('clarifai');
-
+const path = require('path');
 const multer  = require('multer')
 const upload = multer();
 
@@ -707,7 +707,6 @@ app.get('/api/hello', (req, res) => {
   res.send({ express: 'Hello From Express' });
 });
 
-console.log('Checking env', process.env)
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, 'client/public')));
     app.get('*', function(req, res) {
