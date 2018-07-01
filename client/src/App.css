@@ -131,3 +131,12 @@ body {
   outline: none;
   box-shadow: 5px 8px 20px grey;
 }
+
+.error-container {
+  background-color: #d64444;
+  line-height: 40px;
+  position: absolute;
+  width: 100%;
+  color: white;
+  transition: all 3s linear;
+}

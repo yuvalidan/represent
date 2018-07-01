@@ -30,24 +30,30 @@ class SubmissionForm extends React.Component {
   }
 
     handleSubmission() {
+      let url = '/url';
+      let data = { url: this.state.imageUrl };
       if (this.state.selectedFile) {
         const formData = new FormData()
         formData.append('myFile', this.state.selectedFile, this.state.selectedFile.name)
-        return axiosInstance.post('/upload', formData)
+        data = formData;
+        url = '/upload';
+      }
+        return axiosInstance.post(url, data)
         .then(res => {
           if (res && res.data) {
-            this.setState({selectedFile: null, imageUrl: '', image: URL.createObjectURL(this.state.selectedFile)});
+            this.setState({
+              selectedFile: null,
+              image: this.state.selectedFile ? URL.createObjectURL(this.state.selectedFile) : this.state.imageUrl,
+            });
             this.props.updateResults(res.data)
+          } else {
+            this.props.showError(res.error);
           }
         })
-      }
-      return axiosInstance.post('/url', { url: this.state.imageUrl })
-      .then(res => {
-        if (res && res.data) {
-          this.setState({selectedFile: null, image: this.state.imageUrl});
-          this.props.updateResults(res.data)
-        }
-      })
+        .catch(e => {
+          this.setState({ selectedFile: null, imageUrl: '', image: '' });
+          this.props.showError(e.response.data.error);
+        })
     };
 
     getButtonText() {
