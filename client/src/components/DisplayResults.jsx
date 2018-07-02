@@ -5,13 +5,16 @@ const negativeMessages = [
 	'That doesn\'t look too good.',
 	'You can do better than that!',
 	'Not super ideal.',
-	'As homogeneous as Fox News',
+	'As homogeneous as Fox News.',
+	'We\'re a little bit concerned.',
+	'Not the best.',
 ];
 const positiveMessages = [
 	'Looks good!',
 	'Tumblr would approve.',
 	'Nice!',
 	'Super woke.',
+	'A sight for sore eyes.',
 	'We\'re proud of you.',
 	'Good job.',
 	'So diverse it could be the cast of Orange is the New Black',

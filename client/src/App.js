@@ -4,6 +4,7 @@ import DisplayResults from './components/DisplayResults';
 import Explainer from './components/Explainer';
 import ErrorBar from './components/ErrorBar';
 import Loader from './components/Loader';
+import Footer from './components/Footer';
 import './App.css';
 
 class App extends Component {
@@ -52,6 +53,7 @@ class App extends Component {
           <DisplayResults results={this.state.results} />
           <SubmissionForm startLoading={this.startLoading} showError={this.showError} updateResults={this.updateResults} />
         </div>
+        <Footer />
       </div>
     );
   }

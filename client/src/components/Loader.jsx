@@ -5,7 +5,7 @@ const Loader = ({ loading }) => {
 		return null;
 	}
 	return (
-		<div><div className="loader"></div></div>
+		<div className="loader"></div>
 	);
 };
 
